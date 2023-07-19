@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import api from "../Services/Api";
 import Login from "./Login";
+import { Link } from "react-router-dom";
+
 
 function Chat() {
     const [message, setMessage] = useState("");
@@ -8,7 +10,12 @@ function Chat() {
     const [LoginSeen, setLoginSeen] = useState(false);
     const [LoginButton, setLoginButton] = useState(false);
     const [chatUsername, setChatUsername] = useState('user');
+    const [showTopics, setShowTopics] = useState(false);
     
+    const apply = "https://www.investopedia.com/articles/personal-finance/010516/how-apply-personal-loan.asp";
+    const conditions = "https://www.investopedia.com/loan-terms-5075341";
+
+
     const getUsername = (username) => {
         setChatUsername(username);
     };
@@ -27,6 +34,10 @@ function Chat() {
   
     const togglePop = () => {
       setLoginSeen(!LoginSeen);
+    };
+
+    const toggleTopics = () => {
+        setShowTopics(!showTopics);
     };
 
     const chat = async (e, message) => {
@@ -51,13 +62,19 @@ function Chat() {
             toggleButton();
         };
 
+        if(data.response.title === 'loan') {
+            toggleTopics();
+        } else {
+          if(showTopics) {
+            toggleTopics();
+          }
+        };
+
         setChats(chats => [...chats, {
             chat_id: chat_id,
             username: 'system',
             userMessage: data.response.response,
         }]);
-
-        return newChats;
     };
 
     return (
@@ -77,6 +94,28 @@ function Chat() {
                       </p>
                     ))
                   : ""}
+            </section>
+            <section>
+              {showTopics ? <ul>
+                <a 
+                  href={ apply }
+                  target="_blank"
+                >
+                  Do you want to apply for a loan?
+                </a>
+                <a 
+                  href={ conditions }
+                  target="_blank"
+                >
+                  Loan conditions
+                </a>
+                <a 
+                  href="/help"
+                  target="_blank"
+                >
+                  Help
+                </a>
+              </ul> : null}
             </section>
             <section>
                 {LoginButton ? <button onClick={togglePop}>Login</button> : null}
