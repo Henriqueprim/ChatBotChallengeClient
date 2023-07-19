@@ -23,7 +23,8 @@ function Login(props) {
                 },
         ).then(() => {
             alert("Login successful");
-            props.setChatUsername(username);
+            localStorage.setItem("username", username);
+            props.setChatUsername();
             props.toggleButton();
             props.toggle();
         })

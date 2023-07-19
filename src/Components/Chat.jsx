@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import api from "../Services/Api";
 import Login from "./Login";
-import { Link } from "react-router-dom";
+import NavBar from "./Navbar";
 
 
-function Chat() {
+function Chat(props) {
     const [message, setMessage] = useState("");
     const [chats, setChats] = useState([]);
     const [LoginSeen, setLoginSeen] = useState(false);
     const [LoginButton, setLoginButton] = useState(false);
-    const [chatUsername, setChatUsername] = useState('user');
+    const [chatUsername, setChatUsername] = useState(localStorage.getItem("username") || "user");
     const [showTopics, setShowTopics] = useState(false);
     
     const apply = "https://www.investopedia.com/articles/personal-finance/010516/how-apply-personal-loan.asp";
     const conditions = "https://www.investopedia.com/loan-terms-5075341";
 
 
-    const getUsername = (username) => {
+    const getUsername = () => {
+        const username = localStorage.getItem("username");
         setChatUsername(username);
     };
-    
 
     const generateChatId = () => {
         const chatId = Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -79,6 +79,7 @@ function Chat() {
 
     return (
         <div>
+            <NavBar />
             <h1>Chat</h1>
             <section>
                 {chats && chats.length
