@@ -41,6 +41,7 @@ function Login(props) {
                 },
         ).then(() => {
             alert("Sign Up successful")
+            localStorage.setItem("username", username);
             props.setChatUsername(username);
             props.toggleButton();
             props.toggle();
